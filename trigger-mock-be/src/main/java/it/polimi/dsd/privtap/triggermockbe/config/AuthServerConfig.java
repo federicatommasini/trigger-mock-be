@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -39,13 +40,12 @@ public class AuthServerConfig {
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
-        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("trigger-client")
-                .clientSecret("trigger-secret")
+        RegisteredClient registeredClient = RegisteredClient.withId("mockTriggerId")
+                .clientId("c6dd9084-03b8-4d4f-bba9-25141c67c559")
+                .clientSecret("66ef323a-1bf7-437e-998d-54646efdd956")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN) //.redirectUri("/login/oauth2/code/trigger-client-oidc").redirectUri("/authorized")
-                .redirectUri("/login")
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)// .redirectUri("/login/oauth2/code/trigger-client-oidc").redirectUri("/authorized")
+                .redirectUri("http://localhost:9000/login")
                 .scope(OidcScopes.OPENID)
                 .build();
         return new InMemoryRegisteredClientRepository(registeredClient);
@@ -85,4 +85,5 @@ public class AuthServerConfig {
             throw new RuntimeException(e);
         }
     }
+
 }
