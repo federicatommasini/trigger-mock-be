@@ -28,22 +28,21 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
-@Configuration
-@Import(OAuth2AuthorizationServerConfiguration.class)
+@Configuration(proxyBeanMethods = false)
 public class AuthServerConfig {
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("triggerClient")
+                .clientId("trigger-client")
                 .clientSecret("kWQ7Vyvw6U1G6lIb8M2Q5Fv9hN4X7cDz")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .redirectUri("http://127.0.0.1:8080/login/oauth2/code/triggerClient")
+                .redirectUri("http://127.0.0.1:8080/login/oauth2/code/trigger-client-oidc")
                 .redirectUri("http://127.0.0.1:8080/authorized")
                 .scope(OidcScopes.OPENID)
-                .scope("triggers.read")
+                .scope("trigger.read")
                 .build();
         return new InMemoryRegisteredClientRepository(registeredClient);
     }
