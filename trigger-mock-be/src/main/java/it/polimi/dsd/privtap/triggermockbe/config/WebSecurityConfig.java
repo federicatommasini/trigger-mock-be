@@ -4,8 +4,8 @@ import it.polimi.dsd.privtap.triggermockbe.UserEntity;
 import it.polimi.dsd.privtap.triggermockbe.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,7 +18,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
+import static org.springframework.security.config.Customizer.withDefaults;
+
+@EnableWebSecurity
 public class WebSecurityConfig {
 
     @Autowired
@@ -26,12 +28,11 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.formLogin()
-                .and()
-                .authorizeHttpRequests()
-                .anyRequest()
-                .authenticated()
-                .and().build();
+        http.authorizeRequests(authorizeRequests ->
+                        authorizeRequests.anyRequest().authenticated()
+                )
+                .formLogin(withDefaults());
+        return http.build();
     }
 
     @Bean

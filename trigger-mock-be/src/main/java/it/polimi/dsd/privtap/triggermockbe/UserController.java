@@ -18,17 +18,15 @@ public class UserController {
         return "logged in!!";
     }
 
-    @GetMapping("/registration/{username}/{pw}")
+   /* @GetMapping("/registration/{username}/{pw}")
     public String registration(@PathVariable String username, @PathVariable String pw){
         UserEntity user= new UserEntity();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(pw));
         repo.save(user);
         return "user saved";
-    }
+    }*/
 
-
-    @PreAuthorize("#oauth2.hasScope('REGISTRATION')")
     @PostMapping("/register")
     public void register(@RequestBody UserEntity usr) {
         UserEntity user= new UserEntity();
